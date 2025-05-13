@@ -40,7 +40,8 @@ function deleteParam(key) {
 }
 
 // 函数：加载并显示已保存的参数
-function loadSavedParams() {
+function loadSavedParams(searchTerm = "") { // 添加 searchTerm 参数，默认为空字符串
+  console.log('self loadSavedParams called with searchTerm:', searchTerm); // 调试信息
   const savedParamsListDiv = document.getElementById("savedParamsList");
   savedParamsListDiv.innerHTML = ""; // 清空现有列表
 
@@ -61,7 +62,14 @@ function loadSavedParams() {
       return;
     }
 
-    const keys = Object.keys(items);
+    let keys = Object.keys(items);
+    // 如果 searchTerm 有值，则过滤 keys
+    if (searchTerm) {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      keys = keys.filter(key => key.toLowerCase().includes(lowerCaseSearchTerm));
+      console.log('self filtered keys:', keys); // 调试信息
+    }
+
     const ul = document.createElement("ul");
     // ul 的样式现在通过 popup.html 中的 CSS 控制
 
@@ -170,6 +178,22 @@ function loadSavedParams() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('keyup', function(event) {
+      console.log('self searchInput keyup event, key:', event.key); // 调试信息
+      if (event.key === 'Enter') {
+        loadSavedParams(searchInput.value.trim());
+      }
+    });
+    // 可选：当搜索框清空时也重新加载所有参数
+    searchInput.addEventListener('input', function() {
+      if (searchInput.value.trim() === '') {
+        loadSavedParams(); // 传入空字符串以加载所有
+      }
+    });
+  }
+
   loadSavedParams(); // 页面加载时加载参数列表
   const saveButton = document.getElementById("saveParams");
 

@@ -5,7 +5,7 @@
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      width: 500px;
+      width: 600px;
       padding: 15px;
       height: 500px;
       background-color: #f4f6f8;
@@ -14,20 +14,20 @@
     }
     h3 {
       color: #1a202c;
-      margin-top: 20px;
-      margin-bottom: 10px;
+      margin-top: 5px; /* 进一步减小上外边距 */
+      margin-bottom: 3px; /* 进一步减小下外边距 */
       font-size: 1.1em;
       border-bottom: 1px solid #e2e8f0;
       padding-bottom: 5px;
     }
     button, .action-button {
       width: 100%;
-      padding: 10px 15px;
-      margin-top: 10px;
+      padding: 8px 12px; /* 减小内边距 */
+      margin-top: 3px; /* 进一步减小上外边距 */
       cursor: pointer;
       border: none;
       border-radius: 6px;
-      font-size: 0.95em;
+      font-size: 0.9em; /* 减小字体大小 */
       transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     }
@@ -137,7 +137,21 @@
     hr {
       border: none;
       border-top: 1px solid #e2e8f0;
-      margin: 20px 0;
+      margin: 3px 0; /* 进一步减小上下外边距 */
+    }
+    #searchInput {
+      width: calc(100% - 18px); /* 调整宽度计算以适应新的 padding (8px*2 + 2px border) */
+      padding: 8px; /* 减小内边距 */
+      margin-bottom: 3px; /* 进一步减小下外边距 */
+      border: 1px solid #d1d5db; /* 边框颜色调整 */
+      border-radius: 6px; /* 圆角与按钮一致 */
+      font-size: 0.85em; /* 减小字体大小 */
+      box-sizing: border-box; /* 确保padding和border不增加总宽度 */
+    }
+    #searchInput:focus {
+        border-color: #4A90E2; /* 焦点时边框颜色与主题色一致 */
+        outline: none; /* 移除默认的outline */
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2); /* 添加轻微的阴影效果 */
     }
   </style>
 </head>
@@ -145,6 +159,8 @@
   <h3>Save Current URL Parameters</h3>
   <button id="saveParams">Save Parameters</button>
   <hr>
+  <h3>Search Parameters:</h3>
+  <input type="text" id="searchInput" placeholder="Enter keyword to search...">
   <h3>Saved Parameters:</h3>
   <div id="savedParamsList" style="overflow-y: auto; border: 1px solid #ccc; padding: 5px;">
     <!-- 参数列表将在这里动态生成 -->
