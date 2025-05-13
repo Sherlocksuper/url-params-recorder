@@ -111,6 +111,28 @@ function loadSavedParams() {
         });
         actionsDiv.appendChild(deleteButton);
 
+        // 创建Goto按钮
+        const gotoButton = document.createElement("button");
+        gotoButton.textContent = "Goto";
+        gotoButton.classList.add("action-button", "goto-btn");
+        gotoButton.addEventListener("click", function () {
+          let urlToOpen = key;
+          // 确保 key (域名+路径) 是一个有效的 URL 开头
+          if (!key.startsWith("http://") && !key.startsWith("https://")) {
+            // 尝试从当前标签页获取协议，或者默认使用 https
+            // 注意：在 popup 中直接获取当前标签页协议可能复杂，简单起见，我们先假定一个
+            // 更健壮的做法可能是在保存时也保存协议，或者尝试两种协议
+            urlToOpen = "https://" + key; 
+          }
+          const params = itemData.params.startsWith("?") ? itemData.params : "?" + itemData.params;
+          if (itemData.params) { // 只有当存在参数时才添加
+            urlToOpen += params;
+          }
+          console.log('self urlToOpen', urlToOpen); // 调试信息
+          chrome.tabs.create({ url: urlToOpen });
+        });
+        actionsDiv.appendChild(gotoButton);
+
         itemHeaderDiv.appendChild(actionsDiv); // 将按钮区域添加到新的父div中
         li.appendChild(itemHeaderDiv); // 将新的父div添加到li中
 
